@@ -7,7 +7,7 @@
     * in other words, fir scripts can make use of metered sandboxing and virtualization, with nesting, with zero overhead
     * all of this is in a purely functional context with an explicit canonical serialization/merkelization of the entire VM at each step
     * this possibly makes fir a new paradigm for smart contract VMs, with nested rollups as just the tip of the iceberg
-    * if you're just embedding fir for regular stuff, you can disable `step` support and/or metering for massive performance gains and ultra minimalist semantics
+    * if you're just embedding fir for regular stuff, you can disable `step` support and/or metering for massive performance gains and minimalist semantics
 * fir is inspired by evm, nock, wasm, lisp, and forth
 
 ### RLP as both AST and binary for LISPs and Forths
@@ -16,13 +16,13 @@ RLP makes a good bytecode encoding because half of the one-byte values are seria
 Naturally, you will want core ops that manipulate RLP. This gives you a nice homoiconic foundation for your deterministic VM.
 
 A core subset of basic stack ops for specifying pure functions that are guaranteed to terminate is useful for any higher level language. You can statically determine worst-case execution cost.
-This core does have basic define/call that is equivalent to inlining.
+This core has a `bind`/`call` that is equivalent to inlining, and a `frame`/`eval` for capturing and advancing emulation frames.
 
 All items on the stack are RLP objects, recursive lists with buffers at the leafs.
 RLP operations all take constant time in the implementation, this requirement basically defines the set of operations.
 These are usable like cons lists or buffer, depending on node type.
 
-Draft opcode table below.
+### op table
 
 ```
 00-
@@ -79,25 +79,4 @@ Draft opcode table below.
 
 
 
-```
-
-### scratchpad
-
-```// put first element of first list as first element of second list
-demote := head rot cons swap
-
----- [[a,b,c], [d,e,f]]
-head [[a,b,c], [d,e], f]
-rot  [[d,e], [a,b,c], f]
-cons [[d,e], [a,b,c,f]]
-swap [[a,b,c,f], [d, e]]
-````
-
-
-```
-[loop '5',
-  [case
-    [ '0', push/0 push/0 drop ]
-    [ '1', push/1 push/0 drop ]
-    push/7 ] ]
 ```
