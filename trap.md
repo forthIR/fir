@@ -1,3 +1,4 @@
+```
 // `trip` and slightly more ergonomic `dive` rules
 
 'm ['trip .c0] [['trap .c1] s1] s0
@@ -36,3 +37,4 @@ communicate with environment
 
 'm ['trip .c0] ['m ['trap .c1] .s1 .t1 .n1] .t0 .n0
 'm .c0 [['trap .c1] .s1 .t1 .n1] .t0 .n0
+```
