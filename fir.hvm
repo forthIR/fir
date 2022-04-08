@@ -19,7 +19,7 @@
 
 (Step (CASE a b cs) (S True  s))     = (Step a cs)
 (Step (CASE a b cs) (S False s))     = (Step b s)
-(Step (LOOP k c cs) s)               = (Step ((c (LOOP (- k 1))) cs) s)
+(Step (LOOP k c cs) s)               = (Step ((c (LOOP (- k 1) c cs)) s))
 (Step (EMUL c) (S sc ss))            = (Step c (Step sc ss))
 
 
