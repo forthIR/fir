@@ -1,31 +1,43 @@
 
 
-// (Fir Code Stack)
-(Fir (Fir.HALT cs) s) = (cs s)
-(Fir (Fir.PUSH d cs) ss) = (Fir cs (S d ss))
-(Fir (Fir.ADD cs) (S a (S b ss))) = (Fir cs (S (+ a b) ss))
+(Fire c s) = (Step c s)
 
-// Fir flag code term
-(Fire (Trip k) (Trap c) s) = (Fire (Trap k) c s)
+(Step (HALT c) s)                    = (Trap FHALT (HALT c) s)
 
-(Fire (Trip k) (PUSH d cs) ss)
-=
-(Fire (Trip (- k 1)) cs (S d ss))
 
+(Step (PUSH d c) s)                  = (Step c (S d s))
+(Step (DUPE c)  (S a s))             = (Step c (S a (S a s)))
+(Step (DROP c)  (S a s))             = (Step c s)
+(Step (SWAP c)  (S a (S b s)))       = (Step c (S b (a s)))
+(Step (LROT c)  (S a (S b (S c s)))) = (Step c (S b (S c (S a s))))
+
+(Step (WRAP c) (S a (S b s)))        = (Step c (S (S a b) s))
+(Step (WPOP c) (S (S a b) s))        = (Step c (S a (S b s)))
+
+(Step (ADD  c)  (S a (S b s)))       = (Step c (S (+ a b) s))
+(Step (EQ   c)  (S a (S b s)))       = (Step c (S (== a b) s))
+
+(Step (CASE a b cs) (S True  s))     = (Step a cs)
+(Step (CASE a b cs) (S False s))     = (Step b s)
+(Step (LOOP k c cs) s)               = (Step ((c (LOOP (- k 1))) cs) s)
+(Step (EMUL c) (S sc ss))            = (Step c (Step sc ss))
+
+
+(Trap f c s) = s
 
 (Main) =
-(Fir
+(Fire
   ( // code
-    Fir.PUSH 3 (
-    Fir.PUSH 2 (
-    Fir.PUSH 1 (
-    Fir.ADD (
-    Fir.ADD (
-    Fir.HALT (
+    PUSH 3 (
+    PUSH 2 (
+    PUSH 1 (
+    ADD (
+    ADD (
+    PUSH 6 (
+    EQ (
+    HALT (
     Nil
-    ))))))
+    ))))))))
   )
-  ( // stack
-    Nil
-  )
+  []
 )
