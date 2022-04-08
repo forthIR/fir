@@ -2,18 +2,21 @@
 
 term manipulation ops
 
+// 0 -- 1
 Fir (PUSH d cs) ss                       = Fir cs (d s)
+// 1 -- 2
+Fir (DUPE cs) (a ss)                     = Fir cs (a (a ss))
+// 1 -- 0
 Fir (DROP cs) (d ss)                     = Fir cs ss
+// 2 -- 2
 Fir (SWAP cs) (a (b ss))                 = Fir cs (b (a ss))
+// 3 -- 3
 Fir (LROT cs) (a (b (c ss)))             = Fir cs (b (c (a ss)))
-Fir (WRAP cs) (s ss)                     = Fir cs ((s nil) ss)
-Fir (UNWRAP cs) ((s NIL) ss)             = Fir cs (s ss)
 
-// maybe useful macros
-Fir (SWAPOO cs) (a (b ss))               = Fir cs (b (a ss))
-Fir (SWAPII cs) ((a (b ss0)) ss1)        = Fir cs ((b (a ss0)) ss1)
-Fir (SWAPIO cs) ((a0 (b0 ss0)) (a1 ss1)) = Fir cs ((a1 (b0 ss0)) (a0 ss1))
-Fir (SWAPOI cs) ((a0 ss0) (a1 (b1 ss1))) = Fir cs ((a1 ss0) (a0 (b1 ss1)))
+// 1 -- [1]
+Fir (WRAP cs) (a ss)                     = Fir cs ((a NIL) ss)
+// [1] -- 1
+Fir (WPOP cs) ((a ssa) ssb)              = Fir cs (ssa ssb)
 
 case
 
@@ -25,8 +28,20 @@ loop
 Fir (LOOP (k (b cs))) ss = Fir (b (LOOP ((- k 1) (b cs)))) ss
 
 emul
-
 Fir (EMUL cs) (c1 s1) = Fir cs (Fir c1 s1)
+
+
+
+
+// maybe useful macros
+
+// 1 [1] -- 1 [1]
+Fir (PLEX cs) (a ((b c) ss)              = Fir cs (b (a c) ss)
+
+Fir (SWAPOO cs) (a (b ss))               = Fir cs (b (a ss))
+Fir (SWAPII cs) ((a (b ss0)) ss1)        = Fir cs ((b (a ss0)) ss1)
+Fir (SWAPIO cs) ((a0 (b0 ss0)) (a1 ss1)) = Fir cs ((a1 (b0 ss0)) (a0 ss1))
+Fir (SWAPOI cs) ((a0 ss0) (a1 (b1 ss1))) = Fir cs ((a1 ss0) (a0 (b1 ss1)))
 
 
 
