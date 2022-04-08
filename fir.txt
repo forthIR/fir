@@ -1,0 +1,16 @@
+
+
+term manipulation ops
+
+Fir (PUSH d cs) ss                       = Fir cs (d s)
+Fir (WRAP cs) (s ss)                     = Fir cs ((s nil) ss)
+Fir (UNWRAP cs) ((s NIL) ss)             = Fir cs (s ss)
+Fir (SWAPOO cs) (a (b ss))               = Fir cs (b (a ss))
+Fir (SWAPII cs) ((a (b ss0)) ss1)        = Fir cs ((b (a ss0)) ss1)
+Fir (SWAPIO cs) ((a0 (b0 ss0)) (a1 ss1)) = Fir cs ((a1 (b0 ss0)) (a0 ss1))
+Fir (SWAPOI cs) ((a0 ss0) (a1 (b1 ss1))) = Fir cs ((a1 ss0) (a0 (b1 ss1)))
+
+case
+
+Fir (CASE (a (b cs))) (0 ss) = Fir (a cs) ss
+Fir (CASE (a (b cs))) (1 ss) = Fir (b cs) ss
