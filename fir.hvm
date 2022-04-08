@@ -1,0 +1,21 @@
+
+
+// Fir Code Stack
+(Fir (Fir.HALT cs) s) = (cs s)
+(Fir (Fir.ADD cs) (S a (S b ss))) = (Fir cs (+ a b))
+
+(Main) =
+(Fir
+  ( // code
+    Fir.ADD (
+    Fir.ADD (
+    Fir.HALT (
+    )))
+  )
+  ( // stack
+    S 3 (
+    S 1 (
+    S 2 (
+    )))
+  )
+)
