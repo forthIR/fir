@@ -1,0 +1,5 @@
+
+
+(a (Reflect (x y))) = (Tag x)
+
+(Main) = (1 (Reflect (Pink (Val))))

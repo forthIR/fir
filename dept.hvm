@@ -1,0 +1,4 @@
+
+((Op o) (Stack 0)) = (o)
+
+(Main) = ((Op 5) (Stack 0))

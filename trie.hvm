@@ -1,0 +1,17 @@
+
+// we will use this to make sets / maps
+
+(Trie.Down (Trie d l r)) = (d)
+(Trie.Left (Trie d l r)) = (l)
+(Trie.Rite (Trie d l r)) = (r)
+
+(Trie.Set                 (Trie d l r) (Key k) (Val v)) =
+(Trie.Setting (Cursor ()) (Trie d l r) (Key k) (Val v))
+
+(Trie.Setting (Cursor ())         (Trie d l r) (Key (Str c ss)) (Val v)) =
+(Trie.Setting (Cursor (Str c ())) (Trie d l r) (Key ss)         (Val v))
+
+
+
+(Trie.Get                 (Trie d l r) (Key k)) =
+(Trie.Getting (Cursor ()) (Trie d l r) (Key k))
